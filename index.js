@@ -22,7 +22,10 @@ mongoose.connect('mongodb+srv://paras22:BB2orhb1NHhtvT0J@cluster0.gejab.mongodb.
 // Routes
 app.use('/api/projects', projectSuggestions);
 
+
 // Start server
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
 });
+
+
