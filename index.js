@@ -4,7 +4,9 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import projectSuggestions from './routes/ProjectSuggestionRoutes.js';
 import paymentRoutes from "./routes/PaymentRoute.js"
-import authRoutes from "./routes/authRoutes.js"
+import Testimonial from './models/Testimonial.js';
+import { isAdmin } from './middlewares/authmiddlerware.js';
+import authoRoutes from "./routes/authRoutes.js"
 
 const app = express();
 
@@ -20,10 +22,14 @@ mongoose.connect('mongodb+srv://paras22:BB2orhb1NHhtvT0J@cluster0.gejab.mongodb.
 // Routes
 app.use('/api/projects', projectSuggestions);
 app.use('/api/payment', paymentRoutes);
-app.use("/api/auth",authRoutes)
+app.use('/api/testimonial',Testimonial);
+app.use("/api/auth",authoRoutes)
+app.use('/api/isAdmin',isAdmin)
 
 
-app.listen(4000, ()=>{
+
+
+app.listen(process.env.PORT, ()=>{
     console.log("Server is runnig on port 4000");
     
 })
