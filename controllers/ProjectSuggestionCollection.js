@@ -1,6 +1,6 @@
 import ProjectSuggestion from '../models/ProgectSuggestion.js';
 
-// Submit Project Suggestion
+
 export const submitProjectSuggestion = async (req, res) => {
     try {
         const suggestion = new ProjectSuggestion(req.body);
@@ -11,7 +11,8 @@ export const submitProjectSuggestion = async (req, res) => {
     }
 };
 
-// Get All Suggestions (Admin Only)
+
+
 export const getAllSuggestions = async (req, res) => {
     try {
         const suggestions = await ProjectSuggestion.find();
