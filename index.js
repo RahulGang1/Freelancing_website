@@ -1,13 +1,16 @@
 import express from 'express';
+<<<<<<< HEAD
 import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import projectSuggestions from './routes/ProjectSuggestionRoutes.js';
 import paymentRoutes from "./routes/PaymentRoute.js"
 
+=======
+>>>>>>> 219703adb1ba3b2b998bd576c76ef3a4d7742800
 const app = express();
-const PORT = process.env.PORT || 5000;
 
+<<<<<<< HEAD
 // Middleware
 app.use(cors());
 app.use(bodyParser.json());
@@ -21,8 +24,14 @@ mongoose.connect('mongodb+srv://paras22:BB2orhb1NHhtvT0J@cluster0.gejab.mongodb.
 app.use('/api/projects', projectSuggestions);
 app.use('/api', paymentRoutes);
 
+=======
+app.get('/', (req,res)=>{
+    res.send("Server is running.")
+})
 
-// Start server
-app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
-});
+>>>>>>> 219703adb1ba3b2b998bd576c76ef3a4d7742800
+
+app.listen(4000, ()=>{
+    console.log("Server is runnig on port 4000");
+    
+})
