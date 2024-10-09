@@ -11,5 +11,6 @@ const projectSuggestionSchema = new mongoose.Schema({
     additionalNotes: { type: String },
 });
 
+
 const ProjectSuggestion = mongoose.model('ProjectSuggestion', projectSuggestionSchema);
 export default ProjectSuggestion;
