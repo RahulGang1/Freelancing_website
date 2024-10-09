@@ -9,7 +9,7 @@ const projectSuggestionSchema = new mongoose.Schema({
     budget: { type: Number, required: true },
     deadline: { type: String },
     additionalNotes: { type: String },
-});
+}, { timestamps: true });
 
 const ProjectSuggestion = mongoose.model('ProjectSuggestion', projectSuggestionSchema);
 export default ProjectSuggestion;

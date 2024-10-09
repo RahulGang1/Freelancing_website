@@ -2,6 +2,7 @@ import asyncHandler from 'express-async-handler';
 import User from '../models/userModel.js';
 import generateToken from '../utils/generateToken.js';
 
+// Register User
 export const registerUser = asyncHandler(async (req, res) => {
     const { name, email, password, isAdmin } = req.body;
 
@@ -12,13 +13,7 @@ export const registerUser = asyncHandler(async (req, res) => {
         throw new Error('User already exists');
     }
 
-    
-    const user = await User.create({
-        name,
-        email,
-        password,
-        isAdmin: isAdmin || false,
-    });
+    const user = await User.create({ name, email, password, isAdmin: isAdmin || false });
 
     if (user) {
         res.status(201).json({
@@ -34,7 +29,7 @@ export const registerUser = asyncHandler(async (req, res) => {
     }
 });
 
-// Login user (admin or regular user)
+// Login User
 export const loginUser = asyncHandler(async (req, res) => {
     const { email, password } = req.body;
 
@@ -45,7 +40,7 @@ export const loginUser = asyncHandler(async (req, res) => {
             _id: user._id,
             name: user.name,
             email: user.email,
-            isAdmin: user.isAdmin,  
+            isAdmin: user.isAdmin,
             token: generateToken(user._id),
         });
     } else {
@@ -54,7 +49,7 @@ export const loginUser = asyncHandler(async (req, res) => {
     }
 });
 
-// Get user profile (admin or regular user)
+// Get User Profile
 export const getUserProfile = asyncHandler(async (req, res) => {
     const user = await User.findById(req.user._id);
 
@@ -63,7 +58,7 @@ export const getUserProfile = asyncHandler(async (req, res) => {
             _id: user._id,
             name: user.name,
             email: user.email,
-            isAdmin: user.isAdmin,  // Include admin status in the response
+            isAdmin: user.isAdmin,
         });
     } else {
         res.status(404);
@@ -71,7 +66,7 @@ export const getUserProfile = asyncHandler(async (req, res) => {
     }
 });
 
-// Update user profile (admin or regular user)
+// Update User Profile
 export const updateUserProfile = asyncHandler(async (req, res) => {
     const user = await User.findById(req.user._id);
 
