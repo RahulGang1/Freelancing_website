@@ -7,5 +7,5 @@ const PaymentSchema = new mongoose.Schema({
     status: { type: String, enum: ['pending', 'completed'], default: 'pending' },
 }, { timestamps: true });
 
-const Payment = mongoose.model('Project', PaymentSchema);
+const Payment = mongoose.model('Payment', PaymentSchema);
 export default Payment;
