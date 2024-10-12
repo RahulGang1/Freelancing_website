@@ -1,15 +1,23 @@
-import mongoose from 'mongoose';
+import express from 'express';
+import { 
+    submitProjectSuggestion, 
+    getAllSuggestions, 
+    getProjectSuggestionById, 
+    deleteProjectSuggestion 
+} from '../controllers/ProjectSuggestionCollection.js';
 
-const projectSuggestionSchema = new mongoose.Schema({
-    name: { type: String, required: true },
-    email: { type: String, required: true },
-    projectTitle: { type: String, required: true },
-    projectType: { type: String, required: true },
-    projectDescription: { type: String, required: true },
-    budget: { type: Number, required: true },
-    deadline: { type: String },
-    additionalNotes: { type: String },
-}, { timestamps: true });
+const router = express.Router();
 
-const ProjectSuggestion = mongoose.model('ProjectSuggestion', projectSuggestionSchema);
-export default ProjectSuggestion;
+// Route for submitting a project suggestion
+router.post('/submit', submitProjectSuggestion);
+
+// Route for getting all project suggestions
+router.get('/suggestions', getAllSuggestions);
+
+// Route for getting a single project suggestion by ID
+router.get('/suggestions/:id', getProjectSuggestionById);
+
+// Route for deleting a project suggestion by ID
+router.delete('/suggestions/:id', deleteProjectSuggestion);
+
+export default router;
