@@ -1,4 +1,4 @@
-import ProjectSuggestion from '../models/ProjectSuggestion.js';
+import ProjectSuggestion from '../models/ProgectSuggestion.js';
 
 // Submit Project Suggestion
 export const submitProjectSuggestion = async (req, res) => {
