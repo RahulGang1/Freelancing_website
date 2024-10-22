@@ -4,7 +4,7 @@ import cors from 'cors';
 import bodyParser from 'body-parser';
 import projectSuggestions from './routes/ProjectSuggestionRoutes.js';
 import paymentRoutes from './routes/PaymentRoute.js';
-import testimonialRoutes from './routes/TestimonialRoutes.js';
+import testimonialRoutes from './routes/testimonialRoutes.js';
 import authRoutes from './routes/authRoutes.js';
 import { isAdmin } from './middlewares/authmiddlerware.js';
 import dotenv from 'dotenv';
