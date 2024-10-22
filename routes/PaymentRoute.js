@@ -3,7 +3,7 @@ import {
     createProject,
     partialPayment,
     fullPayment
-} from '../controllers/paymentController.js';
+} from '../controllers/PaymentController.js';
 
 
 const router = express.Router();
