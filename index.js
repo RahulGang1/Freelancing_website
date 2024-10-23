@@ -7,6 +7,7 @@ import paymentRoutes from './routes/PaymentRoute.js';
 import testimonialRoutes from './routes/testimonialRoutes.js';
 import authRoutes from './routes/authRoutes.js';
 import { isAdmin } from './middlewares/authmiddlerware.js';
+import contactRoute from "./routes/contactRoute.js"
 import dotenv from 'dotenv';
 
 dotenv.config(); // Load environment variables
@@ -34,6 +35,7 @@ app.use('/api/projects', projectSuggestions);
 app.use('/api/payment', paymentRoutes);
 app.use('/api/testimonials', testimonialRoutes);
 app.use('/api/auth', authRoutes);
+app.use('/contact',contactRoute)
 
 // Start the server
 const PORT = process.env.PORT || 5000;

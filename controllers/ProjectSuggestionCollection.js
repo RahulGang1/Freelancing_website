@@ -35,15 +35,20 @@ export const getProjectSuggestionById = async (req, res) => {
 };
 
 // Delete Project Suggestion
+
 export const deleteProjectSuggestion = async (req, res) => {
     try {
         const suggestion = await ProjectSuggestion.findById(req.params.id);
+        
         if (!suggestion) {
             return res.status(404).json({ message: 'Suggestion not found' });
         }
-        await suggestion.remove();
+        
+        await suggestion.deleteOne(); // Use deleteOne() instead of remove()
         res.status(200).json({ message: 'Suggestion removed' });
+        
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 };
+
