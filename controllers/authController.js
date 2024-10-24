@@ -85,9 +85,11 @@ export const updateUserProfile = asyncHandler(async (req, res) => {
     }
 });
 
-// Delete User (Admin only)// Delete User (Admin only)
+
+
+// Delete user (Admin only)
 export const deleteUser = asyncHandler(async (req, res) => {
-    console.log("Deleting user with ID:", req.params.id); 
+    console.log("Authenticated user:", req.user);  // Debug log to ensure req.user is set
 
     if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
         return res.status(400).json({ message: 'Invalid User ID' });
@@ -96,9 +98,8 @@ export const deleteUser = asyncHandler(async (req, res) => {
     const user = await User.findByIdAndDelete(req.params.id);
 
     if (user) {
-        return res.json({ message: `User ${user.name} removed` });
+        return res.json({ message: `User ${user.name} has been deleted` });
     } else {
         return res.status(404).json({ message: 'User not found' });
     }
 });
-
