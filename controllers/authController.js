@@ -11,8 +11,7 @@ export const registerUser = asyncHandler(async (req, res) => {
     const userExists = await User.findOne({ email });
 
     if (userExists) {
-        res.status(400);
-        throw new Error('User already exists');
+        return res.status(400).json({ message: 'User already exists' });
     }
 
     try {
@@ -20,7 +19,7 @@ export const registerUser = asyncHandler(async (req, res) => {
         const user = await User.create({ name, email, password, isAdmin: isAdmin || false });
 
         if (user) {
-            res.status(201).json({
+            return res.status(201).json({
                 _id: user._id,
                 name: user.name,
                 email: user.email,
@@ -28,17 +27,10 @@ export const registerUser = asyncHandler(async (req, res) => {
                 token: generateToken(user._id),
             });
         } else {
-            res.status(400);
-            throw new Error('Invalid user data');
+            return res.status(400).json({ message: 'Invalid user data' });
         }
     } catch (error) {
-        if (error.name === 'ValidationError') {
-            res.status(400);
-            throw new Error('Invalid user data: ' + error.message);
-        } else {
-            res.status(500);
-            throw new Error('Server error: ' + error.message);
-        }
+        return res.status(500).json({ message: error.message });
     }
 });
 
@@ -46,11 +38,10 @@ export const registerUser = asyncHandler(async (req, res) => {
 export const loginUser = asyncHandler(async (req, res) => {
     const { email, password } = req.body;
 
-    // Find user by email
     const user = await User.findOne({ email });
 
     if (user && (await user.matchPassword(password))) {
-        res.json({
+        return res.json({
             _id: user._id,
             name: user.name,
             email: user.email,
@@ -58,23 +49,15 @@ export const loginUser = asyncHandler(async (req, res) => {
             token: generateToken(user._id),
         });
     } else {
-        res.status(401);
-        throw new Error('Invalid email or password');
+        return res.status(401).json({ message: 'Invalid email or password' });
     }
 });
 
-// Get User Profile
+// Get all users (Admin only)
 export const getAllUsers = asyncHandler(async (req, res) => {
-    const users = await User.find({}).select('-password'); // Fetch all users and exclude passwords
-
-    if (users) {
-        res.json(users); // Return the list of users
-    } else {
-        res.status(404);
-        throw new Error('No users found');
-    }
+    const users = await User.find({}).select('-password');
+    return res.json(users);
 });
-
 
 // Update User Profile
 export const updateUserProfile = asyncHandler(async (req, res) => {
@@ -85,12 +68,12 @@ export const updateUserProfile = asyncHandler(async (req, res) => {
         user.email = req.body.email || user.email;
 
         if (req.body.password) {
-            user.password = req.body.password; // Make sure to hash the password in the User model's pre-save hook
+            user.password = req.body.password;
         }
 
         const updatedUser = await user.save();
 
-        res.json({
+        return res.json({
             _id: updatedUser._id,
             name: updatedUser.name,
             email: updatedUser.email,
@@ -98,29 +81,24 @@ export const updateUserProfile = asyncHandler(async (req, res) => {
             token: generateToken(updatedUser._id),
         });
     } else {
-        res.status(404);
-        throw new Error('User not found');
+        return res.status(404).json({ message: 'User not found' });
     }
 });
 
-// Delete User
+// Delete User (Admin only)// Delete User (Admin only)
 export const deleteUser = asyncHandler(async (req, res) => {
-    // Check if the provided ID is a valid ObjectId
+    console.log("Deleting user with ID:", req.params.id); 
+
     if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
         return res.status(400).json({ message: 'Invalid User ID' });
     }
 
-    try {
-        const user = await User.findByIdAndDelete(req.params.id); // Delete user by ID directly
+    const user = await User.findByIdAndDelete(req.params.id);
 
-        if (user) {
-            res.json({ message: `User ${user.name} removed successfully` });
-        } else {
-            res.status(404).json({ message: 'User not found' });
-        }
-    } catch (error) {
-        console.error('Error deleting user:', error); // Log the error for debugging
-        res.status(500).json({ message: 'Server error while deleting user' });
+    if (user) {
+        return res.json({ message: `User ${user.name} removed` });
+    } else {
+        return res.status(404).json({ message: 'User not found' });
     }
 });
 
