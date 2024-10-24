@@ -2,7 +2,7 @@ import asyncHandler from 'express-async-handler';
 import Contact from '../models/ContactModel.js';
 import nodemailer from 'nodemailer';
 
-// Create a new contact
+// Create a new contact// Create a new contact
 export const createContact = asyncHandler(async (req, res) => {
     const { name, email, phone, message } = req.body;
 
@@ -11,25 +11,29 @@ export const createContact = asyncHandler(async (req, res) => {
     if (contact) {
         // Send email notification
         const transporter = nodemailer.createTransport({
-            service: 'gmail',
+            host: 'smtp.gmail.com',
+            port: 465, // Use 465 for SSL/TLS
+            secure: false, // true for 465, false for other ports
             auth: {
-                user: 'your-email@gmail.com', // Your Gmail address
-                pass: 'your-email-password', // Your Gmail password or App Password
+              user: 'collaboratex7@gmail.com', // Your Gmail address
+              pass: 'paras208017', // Use app password if 2FA enabled
             },
-        });
-
+          });
+        
+        // Mail options
         const mailOptions = {
-            from: 'collaboratex7@gmail.com',
-            to: 'collaboratex7@gmail.com', // The same or another email to receive notifications
+            from:  process.env.EMAIL_USERNAME,
+            to: 'collaboratex7@gmail.com', 
             subject: 'New Contact Form Submission',
             text: `You have received a new message from:
-
+        
             Name: ${name}
             Email: ${email}
             Phone: ${phone}
             Message: ${message}`,
         };
-
+        
+        // Send email function
         transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
                 console.log('Error sending email:', error);
@@ -50,7 +54,6 @@ export const createContact = asyncHandler(async (req, res) => {
         throw new Error('Invalid contact data');
     }
 });
-
 
 
 export const getContacts = asyncHandler(async (req, res) => {
